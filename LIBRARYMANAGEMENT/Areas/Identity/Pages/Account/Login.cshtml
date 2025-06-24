@@ -1,0 +1,76 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<div class="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-200 to-purple-400 relative pb-20">
+    <div class="w-full rounded-lg bg-slate-900 p-6 text-sm text-indigo-300 sm:w-80 max-w-sm">
+        <h1 class="mb-3 text-center text-2xl font-semibold text-white">Login</h1>
+        <p class="mb-5 text-center text-sm">Welcome Back!</p>
+
+        <form method="post">
+            <div asp-validation-summary="All" class="text-red-400 text-xs mb-3"></div>
+
+            <!-- Email -->
+            <div class="mb-4 flex gap-2 rounded-full bg-[#333A5c] px-5 py-2">
+                <input asp-for="Input.Email" placeholder="Email"
+                       class="border-none outline-none bg-transparent text-white w-full text-sm" />
+            </div>
+            <span asp-validation-for="Input.Email" class="text-red-400 text-xs ml-2"></span>
+
+            <!-- Password -->
+            <div class="mb-4 flex gap-2 rounded-full bg-[#333A5c] px-5 py-2">
+                <input asp-for="Input.Password" type="password" placeholder="Password"
+                       class="border-none outline-none bg-transparent text-white w-full text-sm" />
+            </div>
+            <span asp-validation-for="Input.Password" class="text-red-400 text-xs ml-2"></span>
+
+            <!-- Forgot Password -->
+            <p class="mb-4 text-right text-sm">
+                <a asp-page="./ForgotPassword" class="text-blue-400 hover:underline">Forgot Password?</a>
+            </p>
+
+            <!-- Submit -->
+            <button type="submit"
+                    class="w-full rounded-full bg-gradient-to-r from-indigo-400 to-indigo-800 py-2 font-medium text-white text-sm tracking-wide">
+                Login
+            </button>
+        </form>
+
+        <!-- Sign Up -->
+        <p class="mt-4 mb-4 text-center text-sm text-slate-400">
+            Don't have an account?
+            <a asp-page="./Register" class="hover:underline text-blue-400">Sign Up</a>
+        </p>
+
+        <!-- Divider -->
+        <div class="h-0.5 bg-gradient-to-r from-slate-900 via-indigo-500 to-slate-900 mb-4"></div>
+
+        <!-- External Logins -->
+        <div class="flex flex-col gap-3">
+            @if (Model.ExternalLogins?.Count > 0)
+            {
+                <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="flex flex-col gap-3">
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="submit" name="provider" value="@provider.Name"
+                                class="bg-[#333A5c] px-4 py-2 rounded-lg text-white text-sm font-medium">
+                            Log in with @provider.DisplayName
+                        </button>
+                    }
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

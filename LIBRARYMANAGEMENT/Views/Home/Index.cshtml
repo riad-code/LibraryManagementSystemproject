@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-4">
+
+    <!-- Carousel Slider -->
+    <div id="adminCarousel" class="carousel slide mb-5">
+        <div class="carousel-inner rounded shadow">
+            <div class="carousel-item active">
+                <img src="@Url.Content("~/Admin/dist/img/slider1.jpg")" class="d-block w-100" alt="Admin Panel">
+            </div>
+            <div class="carousel-item">
+                <img src="@Url.Content("~/Admin/dist/img/slider2.jpg")" class="d-block w-100" alt="Dashboard Overview">
+            </div>
+            <div class="carousel-item">
+                <img src="@Url.Content("~/Admin/dist/img/slider3.jpg")" class="d-block w-100" alt="User Management">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#adminCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#adminCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+
+    <!-- Welcome Message -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary">Welcome to the Admin Panel</h1>
+        <p class="lead text-secondary">Manage your application with ease and efficiency.</p>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <i class="bi bi-people-fill display-4 text-success"></i>
+                    <h5 class="card-title mt-3">Manage Employees</h5>
+                    <p class="card-text">Add, update, or remove employees with just a few clicks.</p>
+                    <a href="/Employee" class="btn btn-outline-success">Go to Employees</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <i class="bi bi-bar-chart-line-fill display-4 text-info"></i>
+                    <h5 class="card-title mt-3">Analytics</h5>
+                    <p class="card-text">View reports and gain insights from your data.</p>
+                    <a href="/Reports" class="btn btn-outline-info">View Reports</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <i class="bi bi-gear-fill display-4 text-danger"></i>
+                    <h5 class="card-title mt-3">Settings</h5>
+                    <p class="card-text">Update system preferences and configuration options.</p>
+                    <a href="/Settings" class="btn btn-outline-danger">Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    setInterval(() => {
+        const carousel = document.querySelector('#adminCarousel');
+        const carouselInstance = bootstrap.Carousel.getInstance(carousel) || new bootstrap.Carousel(carousel);
+        carouselInstance.next();
+    }, 3000); // Change image every 3 seconds
+</script>

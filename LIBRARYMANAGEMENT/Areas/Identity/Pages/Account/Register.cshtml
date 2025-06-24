@@ -1,0 +1,78 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-main to-four">
+    <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-3xl font-bold text-center text-main mb-8">Create Your Account</h2>
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="space-y-6">
+            <div asp-validation-summary="All" class="text-red-600 text-sm"></div>
+            <label class="block">
+                <!--   <span class="text-white after:content-['*'] after:ml-0.5 after:text-white block text-sm font-medium text-slate-700">
+                    Name
+                  </span> -->
+                <input type="text" name="text" class="text-base placeholder:text-base mt-1 px-3 py-2 mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1" placeholder="Name" required />
+            </label>
+            <label class="block">
+                <!--   <span class="capitalize text-white after:content-['*'] after:ml-0.5 after:text-white block text-sm font-medium text-slate-700">
+                    username
+                  </span> -->
+                <input type="text" name="text" class="text-base placeholder:text-base mt-1 px-3 py-2 mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1" placeholder="Username" required />
+            </label>
+
+            <input asp-for="Input.Email" type="email" placeholder="Email"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main" required />
+            <span asp-validation-for="Input.Email" class="text-red-600 text-xs"></span>
+
+            <input asp-for="Input.Password" type="password" placeholder="Password"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main" required />
+            <span asp-validation-for="Input.Password" class="text-red-600 text-xs"></span>
+
+            <input asp-for="Input.ConfirmPassword" type="password" placeholder="Confirm Password"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-main" required />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-red-600 text-xs"></span>
+
+            <button type="submit"
+                    class="w-full bg-main text-white py-3 rounded-md font-semibold hover:bg-second transition duration-300">
+                Sign Up
+            </button>
+
+
+            <div class="flex gap-4 mt-3">
+                <button type="button" class="flex items-center justify-center w-1/2 border border-gray-300 py-2 rounded hover:bg-four">
+                    <img src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
+                         alt="Google" class="w-6 h-6 mr-2" /> Google
+                </button>
+                <button type="button" class="flex items-center justify-center w-1/2 border border-gray-300 py-2 rounded hover:bg-four">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png"
+                         alt="Facebook" class="w-6 h-6 mr-2" /> Facebook
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                main: '#4A55A2',
+                second: '#7895CB',
+                third: '#A0BFE0',
+                four: '#C5DFF8',
+              },
+            },
+          },
+        }
+    </script>
+}
