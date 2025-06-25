@@ -1,0 +1,16 @@
+﻿@model LIBRARYMANAGEMENT.Models.AssignRoleViewModel
+@{
+    ViewData["Title"] = "Assign Role";
+}
+
+<h2>Assign Role</h2>
+
+<form asp-action="AssignRole">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label>Select Role:</label>
+        <select asp-for="SelectedRole" asp-items="@(new SelectList(Model.Roles))" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-success">Update Role</button>
+</form>
+

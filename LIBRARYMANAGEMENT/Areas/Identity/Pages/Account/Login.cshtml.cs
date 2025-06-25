@@ -76,24 +76,36 @@ namespace LIBRARYMANAGEMENT.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    // 🔁 Redirect based on role
+                    if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("Index", "AdminDashboard"); // ✅ Your Admin Controller
+                    }
+                    else if (roles.Contains("Librarian"))
+                    {
+                        return RedirectToAction("Index", "LibrarianDashboard");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home"); // Normal User
+                    }
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
@@ -103,8 +115,10 @@ namespace LIBRARYMANAGEMENT.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
+
     }
+
 }
+

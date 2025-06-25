@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configure DB Context
@@ -24,15 +23,15 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy =>
-        policy.RequireRole("Admin")); // ✅ this matches [Authorize(Policy = "Admin")]
+        policy.RequireRole("Admin")); // ✅ use with [Authorize(Policy = "Admin")]
 });
 
 // 4. Configure Razor Pages Access
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/"); // Protect all pages
+    options.Conventions.AuthorizeFolder("/"); // ✅ protect all pages
 
-    // Allow anonymous access to login/register
+    // ✅ allow anonymous access to login/register
     options.Conventions.AllowAnonymousToPage("/Account/Login");
     options.Conventions.AllowAnonymousToPage("/Account/Register");
     options.Conventions.AllowAnonymousToPage("/Account/ForgotPassword");
@@ -42,10 +41,10 @@ builder.Services.AddRazorPages(options =>
 // 5. Add MVC Controllers
 builder.Services.AddControllersWithViews();
 
-// 6. Configure Application Cookie Login Path (✅ set to Identity default login)
+// 6. Configure Login Path
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login"; // ✅ correct default Identity login path
+    options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 
@@ -67,8 +66,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // 🔐 Enable authentication
-app.UseAuthorization();  // 🔐 Enable authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 // 8. Map Routes
 app.MapControllerRoute(
@@ -76,17 +75,39 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-// 9. Optional: Seed Roles (Admin, Librarian, User)
+// ✅ 9. Seed Roles + Admin User (SAFE)
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "Librarian", "User" };
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    string[] roles = { "Admin", "Librarian", "User" };
 
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {
             await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    var adminEmail = "admin@lib.com";
+    var adminPassword = "Admin@123";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        var newAdmin = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(newAdmin, adminPassword);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newAdmin, "Admin");
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h2>User Management</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <!-- ✅ Using asp-* Tag Helpers -->
+                <a asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                <a asp-controller="UserManagement" asp-action="Delete" asp-route-id="@user.Id">Delete</a> |
+                <a asp-controller="UserManagement" asp-action="AssignRole" asp-route-id="@user.Id">Assign Role</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

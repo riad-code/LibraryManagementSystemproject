@@ -3,16 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LIBRARYMANAGEMENT</title>
+    <title>@ViewData["Title"] - Library Management System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LIBRARYMANAGEMENT.styles.css" asp-append-version="true" />
+    @RenderSection("HeadContent", required: false)
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LIBRARYMANAGEMENT</a>
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">IUBAT Central Library</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,6 +25,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Admin Dashboard</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -37,14 +41,55 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+
+
+    <footer class="border-top bg-dark text-light py-2 mt-2">
         <div class="container">
-            &copy; 2025 - LIBRARYMANAGEMENT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row align-items-center">
+                <!-- App Info -->
+                <div class="col-md-6 text-center text-md-start">
+                    <h6 class="mb-1">
+                        Library Management System
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy"></a>
+                    </h6>
+                    <small>&copy; @DateTime.Now.Year Riad. All rights reserved.</small>
+                </div>
+
+                <!-- Live Clock -->
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="fw-semibold">Current Time: </span>
+                    <span id="liveClock" class="text-warning fw-bold"></span>
+                </div>
+            </div>
         </div>
     </footer>
+
+        @section Scripts {
+            <script>
+                function updateClock() {
+                    const now = new Date();
+                    const time = now.toLocaleTimeString();
+                    const clock = document.getElementById("liveClock");
+                    if (clock) {
+                        clock.textContent = time;
+                    }
+                }
+
+                // Start clock only after DOM is loaded
+                document.addEventListener("DOMContentLoaded", () => {
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                });
+            </script>
+        }
+
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+   
+
 </body>
 </html>
