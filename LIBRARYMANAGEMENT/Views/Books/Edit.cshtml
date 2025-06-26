@@ -1,0 +1,80 @@
+﻿@model LIBRARYMANAGEMENT.Models.Book
+@{
+    ViewData["Title"] = "✏️ Edit Book";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-edit"></i> Edit Book</h5>
+        <a asp-action="Index" class="btn btn-light btn-sm text-warning">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="BookID" />
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Title" class="form-label fw-semibold"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Author" class="form-label fw-semibold"></label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ISBN" class="form-label fw-semibold"></label>
+                    <input asp-for="ISBN" class="form-control" />
+                    <span asp-validation-for="ISBN" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Publisher" class="form-label fw-semibold"></label>
+                    <input asp-for="Publisher" class="form-control" />
+                    <span asp-validation-for="Publisher" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="PublishedDate" class="form-label fw-semibold"></label>
+                    <input asp-for="PublishedDate" type="date" class="form-control" />
+                    <span asp-validation-for="PublishedDate" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CategoryID" class="form-label fw-semibold">Category</label>
+                    <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-select"></select>
+                    <span asp-validation-for="CategoryID" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TotalCopies" class="form-label fw-semibold"></label>
+                    <input asp-for="TotalCopies" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="TotalCopies" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="AvailableCopies" class="form-label fw-semibold"></label>
+                    <input asp-for="AvailableCopies" class="form-control" type="number" min="0" />
+                    <span asp-validation-for="AvailableCopies" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-warning px-4">
+                    <i class="fas fa-save"></i> Update Book
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

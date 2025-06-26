@@ -22,11 +22,26 @@ namespace LIBRARYMANAGEMENT.Controllers
         // GET: /Books
         public async Task<IActionResult> Index()
         {
-            var books = await _context.Books
-                .Include(b => b.Category)
-                .ToListAsync();
+            if (!_context.Books.Any())
+            {
+                _context.Books.Add(new Book
+                {
+                    Title = "Test Book",
+                    Author = "Admin",
+                    ISBN = "123456789",
+                    Publisher = "IUBAT Press",
+                    PublishedDate = DateTime.Now,
+                    CategoryID = 1,
+                    TotalCopies = 10,
+                    AvailableCopies = 5
+                });
+                await _context.SaveChangesAsync();
+            }
+
+            var books = await _context.Books.Include(b => b.Category).ToListAsync();
             return View(books);
         }
+
 
         // GET: /Books/Create
         public IActionResult Create()
@@ -40,15 +55,18 @@ namespace LIBRARYMANAGEMENT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Book book)
         {
-            if (ModelState.IsValid)
-            {
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
+
+                Console.WriteLine("Book saved: " + book.Title); // Debug log
                 return RedirectToAction(nameof(Index));
-            }
+            
+
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", book.CategoryID);
             return View(book);
         }
+
+
 
         // GET: /Books/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -79,12 +97,27 @@ namespace LIBRARYMANAGEMENT.Controllers
         // GET: /Books/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book == null) return NotFound();
+            var book = await _context.Books
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(m => m.BookID == id);
 
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+            if (book == null)
+                return NotFound();
+
+            return View(book);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var book = await _context.Books.FindAsync(id);
+            if (book != null)
+            {
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
