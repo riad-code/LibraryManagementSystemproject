@@ -1,36 +1,36 @@
-﻿
-<nav class="mt-2">
+﻿<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
+
+        <!-- Admin Dashboard -->
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a asp-controller="Admin" asp-action="Dashboard" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" ? "active" : "")">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                    <i class="right fas fa-angle-left"></i>
-                </p>
+                <p>Dashboard</p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="~/Admin/index.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard 1</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="~/Admin/index2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard 2</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="~/Admin/index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard 3</p>
-                    </a>
-                </li>
-            </ul>
+        </li>
+
+        <!-- Manage Users -->
+        <li class="nav-item">
+            <a asp-controller="UserManagement" asp-action="Index" class="nav-link">
+                <i class="nav-icon fas fa-users-cog"></i>
+                <p>Manage Users</p>
+            </a>
+        </li>
+
+        <!-- Manage Books -->
+        <li class="nav-item">
+            <a asp-controller="Books" asp-action="Index" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                <p>Manage Books</p>
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="Logout" class="nav-link">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+            </a>
         </li>
 
     </ul>

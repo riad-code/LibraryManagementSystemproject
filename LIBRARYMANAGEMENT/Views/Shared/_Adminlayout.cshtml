@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -147,7 +146,7 @@
                 </li>
             </ul>
         </nav>
-            
+
         <!-- Main Sidebar -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a asp-controller="Home" asp-action="Index" class="brand-link">
@@ -189,29 +188,37 @@
             </section>
         </div>
 
-       
+        <footer class="main-footer bg-dark text-light text-center py-3 mt-auto">
+            <small>&copy; 2025 IUBAT Central Library. All rights reserved.</small>
+        </footer>
 
-        @section Scripts {
-            <script>
-                function updateClock() {
-                    const now = new Date();
-                    const time = now.toLocaleTimeString();
-                    const clock = document.getElementById("liveClock");
-                    if (clock) {
-                        clock.textContent = time;
-                    }
-                }
+        <!-- Control Sidebar -->
+        <div>
+            <aside class="control-sidebar control-sidebar-dark"></aside>
+        </div>
 
-                // Start clock only after DOM is loaded
-                document.addEventListener("DOMContentLoaded", () => {
-                    updateClock();
-                    setInterval(updateClock, 1000);
-                });
-            </script>
-        }
-
-        <aside class="control-sidebar control-sidebar-dark"></aside>
     </div>
+
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            .wrapper {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .content-wrapper {
+                flex: 1;
+            }
+
+            .main-footer {
+                background-color: #343a40;
+                color: #fff;
+            }
+        </style>
 
     <!-- Scripts -->
     <script src="~/Admin/plugins/jquery/jquery.min.js"></script>
@@ -221,3 +228,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+

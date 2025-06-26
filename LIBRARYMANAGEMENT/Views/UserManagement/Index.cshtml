@@ -1,29 +1,75 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
 @{
     ViewData["Title"] = "User List";
 }
 
-<h2>User Management</h2>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    a.btn:hover {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -o-transform: scale(1.1);
+    }
 
-<table>
-    <thead>
+    a.btn {
+        -webkit-transform: scale(0.95);
+        -moz-transform: scale(0.95);
+        -o-transform: scale(0.95);
+        -webkit-transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        margin-right: 5px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle !important;
+    }
+</style>
+
+<h2 class="mb-4">👥 User Management</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>Email</th>
-            <th>Actions</th>
+            <th class="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Email</td>
-            <td>
-                <!-- ✅ Using asp-* Tag Helpers -->
-                <a asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                <a asp-controller="UserManagement" asp-action="Delete" asp-route-id="@user.Id">Delete</a> |
-                <a asp-controller="UserManagement" asp-action="AssignRole" asp-route-id="@user.Id">Assign Role</a>
-            </td>
-        </tr>
-    }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td class="text-center">
+                    <a asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning a-btn-slide-text">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        <span><strong>Edit</strong></span>
+                    </a>
+
+                    <a asp-controller="UserManagement" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger a-btn-slide-text">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        <span><strong>Delete</strong></span>
+                    </a>
+
+                    <a asp-controller="UserManagement" asp-action="AssignRole" asp-route-id="@user.Id" class="btn btn-info a-btn-slide-text">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        <span><strong>Assign Role</strong></span>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<!-- Optional Add Button -->
+<a asp-controller="UserManagement" asp-action="Create" class="btn btn-primary a-btn-slide-text">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    <span><strong>Add New User</strong></span>
+</a>
+<!-- Back Button -->
+<a asp-controller="Admin" asp-action="Dashboard" class="btn btn-sm btn-light">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+    <span><strong>Back</strong></span>
+</a>
+

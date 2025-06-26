@@ -1,3 +1,129 @@
 ﻿@{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // ✅ Use Admin layout
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-4 text-primary">📚 Library Admin Dashboard</h2>
+
+    <!-- Stat Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-info text-white shadow">
+                <div class="card-body">
+                    👤 Total Users
+                    <h4 class="mt-2">104</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    📚 Total Books
+                    <h4 class="mt-2">540</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark shadow">
+                <div class="card-body">
+                    📥 Pending Requests
+                    <h4 class="mt-2">8</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body">
+                    💸 Unpaid Fines
+                    <h4 class="mt-2">৳ 1,250</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Access Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <a asp-controller="UserManagement" asp-action="Index" class="text-decoration-none">
+                <div class="card text-white bg-primary shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users-cog fa-2x"></i><br />
+                        Manage Users
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-controller="Books" asp-action="Index" class="text-decoration-none">
+                <div class="card text-white bg-secondary shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-book fa-2x"></i><br />
+                        Manage Books
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-controller="BookRequests" asp-action="Index" class="text-decoration-none">
+                <div class="card text-white bg-info shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-inbox fa-2x"></i><br />
+                        Book Requests
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a asp-controller="Reports" asp-action="Index" class="text-decoration-none">
+                <div class="card text-white bg-dark shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-bar fa-2x"></i><br />
+                        Reports
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            📈 Borrow vs Return Activity (Last 7 Days)
+        </div>
+        <div class="card-body">
+            <canvas id="borrowChart" width="100%" height="30"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('borrowChart').getContext('2d');
+        const borrowChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                datasets: [
+                    {
+                        label: 'Borrowed',
+                        data: [12, 19, 9, 15, 14, 18, 10],
+                        backgroundColor: '#17a2b8'
+                    },
+                    {
+                        label: 'Returned',
+                        data: [8, 14, 6, 10, 9, 12, 7],
+                        backgroundColor: '#28a745'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    </script>
 }
