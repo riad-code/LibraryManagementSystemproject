@@ -6,6 +6,7 @@ namespace LIBRARYMANAGEMENT.Models
 {
     public class Book
     {
+        [Key]
         public int BookID { get; set; }
 
         [Required]
@@ -27,6 +28,17 @@ namespace LIBRARYMANAGEMENT.Models
         public int TotalCopies { get; set; }
 
         public int AvailableCopies { get; set; }
+       
+
+        
+
+        
+
+        public string CoverImage { get; set; }
+
+       
+        
+
     }
 
 }

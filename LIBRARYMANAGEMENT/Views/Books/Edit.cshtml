@@ -1,69 +1,81 @@
 ﻿@model LIBRARYMANAGEMENT.Models.Book
+
 @{
-    ViewData["Title"] = "✏️ Edit Book";
+    ViewData["Title"] = " Edit Book";
 }
 
-<div class="card shadow">
+<div class="card shadow mt-4">
     <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
         <h5 class="mb-0"><i class="fas fa-edit"></i> Edit Book</h5>
-        <a asp-action="Index" class="btn btn-light btn-sm text-warning">
+        <a asp-action="Index" class="btn btn-light btn-sm text-warning fw-bold">
             <i class="fas fa-arrow-left"></i> Back to List
         </a>
     </div>
 
     <div class="card-body">
         <form asp-action="Edit" method="post">
+            <!-- Hidden Book ID -->
             <input type="hidden" asp-for="BookID" />
+
             <div class="row">
+                <!-- Title -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Title" class="form-label fw-semibold"></label>
+                    <label asp-for="Title" class="form-label fw-semibold">Title</label>
                     <input asp-for="Title" class="form-control" />
                     <span asp-validation-for="Title" class="text-danger small"></span>
                 </div>
 
+                <!-- Author -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Author" class="form-label fw-semibold"></label>
+                    <label asp-for="Author" class="form-label fw-semibold">Author</label>
                     <input asp-for="Author" class="form-control" />
                     <span asp-validation-for="Author" class="text-danger small"></span>
                 </div>
 
+                <!-- ISBN -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="ISBN" class="form-label fw-semibold"></label>
+                    <label asp-for="ISBN" class="form-label fw-semibold">ISBN</label>
                     <input asp-for="ISBN" class="form-control" />
                     <span asp-validation-for="ISBN" class="text-danger small"></span>
                 </div>
 
+                <!-- Publisher -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Publisher" class="form-label fw-semibold"></label>
+                    <label asp-for="Publisher" class="form-label fw-semibold">Publisher</label>
                     <input asp-for="Publisher" class="form-control" />
                     <span asp-validation-for="Publisher" class="text-danger small"></span>
                 </div>
 
+                <!-- Published Date -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="PublishedDate" class="form-label fw-semibold"></label>
-                    <input asp-for="PublishedDate" type="date" class="form-control" />
+                    <label asp-for="PublishedDate" class="form-label fw-semibold">Published Date</label>
+                    <input asp-for="PublishedDate" class="form-control" type="date" />
                     <span asp-validation-for="PublishedDate" class="text-danger small"></span>
                 </div>
 
+                <!-- Category -->
                 <div class="col-md-6 mb-3">
                     <label asp-for="CategoryID" class="form-label fw-semibold">Category</label>
                     <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-select"></select>
                     <span asp-validation-for="CategoryID" class="text-danger small"></span>
                 </div>
 
+                <!-- Total Copies -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="TotalCopies" class="form-label fw-semibold"></label>
+                    <label asp-for="TotalCopies" class="form-label fw-semibold">Total Copies</label>
                     <input asp-for="TotalCopies" class="form-control" type="number" min="1" />
                     <span asp-validation-for="TotalCopies" class="text-danger small"></span>
                 </div>
 
+                <!-- Available Copies -->
                 <div class="col-md-6 mb-3">
-                    <label asp-for="AvailableCopies" class="form-label fw-semibold"></label>
+                    <label asp-for="AvailableCopies" class="form-label fw-semibold">Available Copies</label>
                     <input asp-for="AvailableCopies" class="form-control" type="number" min="0" />
                     <span asp-validation-for="AvailableCopies" class="text-danger small"></span>
                 </div>
             </div>
 
+            <!-- Submit -->
             <div class="text-end">
                 <button type="submit" class="btn btn-warning px-4">
                     <i class="fas fa-save"></i> Update Book
@@ -74,7 +86,5 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

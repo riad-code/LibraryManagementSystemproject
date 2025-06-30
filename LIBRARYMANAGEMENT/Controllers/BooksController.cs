@@ -72,7 +72,10 @@ namespace LIBRARYMANAGEMENT.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var book = await _context.Books.FindAsync(id);
-            if (book == null) return NotFound();
+            if (book == null)
+            {
+                return NotFound();
+            }
 
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", book.CategoryID);
             return View(book);
@@ -83,16 +86,33 @@ namespace LIBRARYMANAGEMENT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Book book)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Books.Update(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", book.CategoryID);
+                return View(book);
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "CategoryID", "CategoryName", book.CategoryID);
-            return View(book);
+            var existingBook = await _context.Books.FindAsync(book.BookID);
+            if (existingBook == null)
+            {
+                return NotFound();
+            }
+
+            // Manual update
+            existingBook.Title = book.Title;
+            existingBook.Author = book.Author;
+            existingBook.ISBN = book.ISBN;
+            existingBook.Publisher = book.Publisher;
+            existingBook.PublishedDate = book.PublishedDate;
+            existingBook.CategoryID = book.CategoryID;
+            existingBook.TotalCopies = book.TotalCopies;
+            existingBook.AvailableCopies = book.AvailableCopies;
+
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Book updated successfully!";
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: /Books/Delete/5
         public async Task<IActionResult> Delete(int id)
